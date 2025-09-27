@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "tsc && node ./dist/debug.js",
     "format-check": "prettier . --check",
     "format": "prettier . --write"
   },
