@@ -1,0 +1,20 @@
+{
+    "name": "youtube-live-scraper",
+    "version": "0.1.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nanikaka666/youtube-live-scraper.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/nanikaka666/youtube-live-scraper/issues"
+    },
+    "homepage": "https://github.com/nanikaka666/youtube-live-scraper#readme",
+    "description": ""
+}
