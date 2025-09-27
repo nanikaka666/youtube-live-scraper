@@ -16,5 +16,8 @@
         "url": "https://github.com/nanikaka666/youtube-live-scraper/issues"
     },
     "homepage": "https://github.com/nanikaka666/youtube-live-scraper#readme",
-    "description": ""
+    "description": "",
+    "devDependencies": {
+        "prettier": "^3.6.2"
+    }
 }
