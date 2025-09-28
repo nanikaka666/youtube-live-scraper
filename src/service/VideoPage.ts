@@ -2,21 +2,16 @@ import { fetchAsString } from "../infrastructure/fetch";
 import { HTMLElement, parse } from "node-html-parser";
 
 export class VideoPage {
-  readonly #videoId: string;
   readonly #html: string;
   readonly #rootNode: HTMLElement;
-  private constructor(videoId: string, html: string) {
-    this.#videoId = videoId;
+  private constructor(html: string) {
     this.#html = html;
     this.#rootNode = parse(this.#html);
   }
   static async init(videoId: string) {
     const url = `https://www.youtube.com/watch?v=${videoId}`;
     const html = await fetchAsString(url);
-    return new this(videoId, html);
-  }
-  getVideoId() {
-    return this.#videoId;
+    return new this(html);
   }
   getChannelTitle() {
     const res = this.#html.match(/"ownerChannelName":"(.+?)"/);
