@@ -112,7 +112,7 @@ export const Scraper = {
     if (!likeCount) {
       throw new Error("<meta itemprop='userInteractionCount'> is not having 'content' attribute.");
     }
-    return likeCount;
+    return Number.parseInt(likeCount);
   },
 
   isLiveNow(page: VideoPage) {
