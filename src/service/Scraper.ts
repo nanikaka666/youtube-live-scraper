@@ -1,5 +1,37 @@
 import { ChannelPage, VideoPage } from "./PageFetcher";
 
+function getContinuation(page: VideoPage) {
+  const res = page.html.match(/{"continuation":"(.+?)"/);
+  if (!res) {
+    return undefined;
+  }
+  return res[1];
+}
+
+function getInnertubeApiKey(page: VideoPage) {
+  const res = page.html.match(/"INNERTUBE_API_KEY":"(.+?)"/);
+  if (!res) {
+    return undefined;
+  }
+  return res[1];
+}
+
+function getInnertubeClientName(page: VideoPage) {
+  const res = page.html.match(/"INNERTUBE_CLIENT_NAME":"(.+?)"/);
+  if (!res) {
+    return undefined;
+  }
+  return res[1];
+}
+
+function getInnertubeClientVersion(page: VideoPage) {
+  const res = page.html.match(/"INNERTUBE_CLIENT_VERSION":"(.+?)"/);
+  if (!res) {
+    return undefined;
+  }
+  return res[1];
+}
+
 export const Scraper = {
   getChannelTitleFromVideoPage(page: VideoPage) {
     const res = page.html.match(/"ownerChannelName":"(.+?)"/);
@@ -24,6 +56,14 @@ export const Scraper = {
     const res = page.html.match(/"videoOwnerRenderer":{"thumbnail":{"thumbnails":\[{"url":"(.+?)"/);
     if (!res) {
       throw new Error("Owner icon url not found.");
+    }
+    return res[1];
+  },
+
+  getChannelId(page: VideoPage) {
+    const res = page.html.match(/"externalChannelId":"(.+?)"/);
+    if (!res) {
+      throw new Error("externalChannelId not found.");
     }
     return res[1];
   },
@@ -140,35 +180,3 @@ export const Scraper = {
     return res;
   },
 };
-
-function getContinuation(page: VideoPage) {
-  const res = page.html.match(/{"continuation":"(.+?)"/);
-  if (!res) {
-    return undefined;
-  }
-  return res[1];
-}
-
-function getInnertubeApiKey(page: VideoPage) {
-  const res = page.html.match(/"INNERTUBE_API_KEY":"(.+?)"/);
-  if (!res) {
-    return undefined;
-  }
-  return res[1];
-}
-
-function getInnertubeClientName(page: VideoPage) {
-  const res = page.html.match(/"INNERTUBE_CLIENT_NAME":"(.+?)"/);
-  if (!res) {
-    return undefined;
-  }
-  return res[1];
-}
-
-function getInnertubeClientVersion(page: VideoPage) {
-  const res = page.html.match(/"INNERTUBE_CLIENT_VERSION":"(.+?)"/);
-  if (!res) {
-    return undefined;
-  }
-  return res[1];
-}
