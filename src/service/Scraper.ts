@@ -1,3 +1,6 @@
+import { ChannelId } from "../core/ChannelId";
+import { ChannelTitle } from "../core/ChannelTitle";
+import { VideoTitle } from "../core/VideoTitle";
 import { ChannelPage, VideoPage } from "./PageFetcher";
 
 function getContinuation(page: VideoPage) {
@@ -38,7 +41,7 @@ export const Scraper = {
     if (!res) {
       throw new Error("Channel name not found.");
     }
-    return res[1];
+    return new ChannelTitle(res[1]);
   },
 
   getSubscriberCount(page: VideoPage | ChannelPage) {
@@ -65,7 +68,7 @@ export const Scraper = {
     if (!res) {
       throw new Error("externalChannelId not found.");
     }
-    return res[1];
+    return new ChannelId(res[1]);
   },
 
   getVideoTitle(page: VideoPage) {
@@ -77,7 +80,7 @@ export const Scraper = {
     if (!res) {
       throw new Error("<meta name='title'> is not having 'content' attribute.");
     }
-    return res;
+    return new VideoTitle(res);
   },
 
   getVideoThumbnail(page: VideoPage) {
@@ -177,6 +180,6 @@ export const Scraper = {
     if (!res) {
       throw new Error("<meta itemprop='name'> is not having 'content' attribute.");
     }
-    return res;
+    return new ChannelTitle(res);
   },
 };
