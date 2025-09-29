@@ -50,7 +50,7 @@ export const Scraper = {
     if (!res) {
       throw new Error("Subscriber count not found.");
     }
-    const subscriberCount = Number.parseFloat(res[1]) * (res[2] ? 10000 : 1);
+    const subscriberCount = Math.floor(Number.parseFloat(res[1]) * (res[2] ? 10000 : 1));
 
     return subscriberCount;
   },
