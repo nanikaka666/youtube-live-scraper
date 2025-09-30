@@ -4,7 +4,7 @@ export class VideoTitle {
     if (title === "") {
       throw new Error("Video title is empty.");
     }
-    if (title.length > 100) {
+    if (title.length > 101) {
       throw new Error("Video title is too long.");
     }
     this.title = title;

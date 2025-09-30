@@ -10,5 +10,5 @@ test("empty video title will be instanced.", () => {
 });
 
 test("too long video title will be instanced.", () => {
-  expect(() => new VideoTitle(Array(102).join("a"))).toThrow();
+  expect(() => new VideoTitle(Array(103).join("a"))).toThrow();
 });
