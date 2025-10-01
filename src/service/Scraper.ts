@@ -44,6 +44,9 @@ export const Scraper = {
     return new ChannelTitle(res[1]);
   },
 
+  /**
+   * this value will returned correctly only if the language is set as Japanese.
+   */
   getSubscriberCount(page: VideoPage | ChannelPage) {
     // the pattern matching is constructed for Japanese.
     const res = page.html.match(/チャンネル登録者数 (\d+\.?\d*)(万)?人/);
@@ -95,6 +98,9 @@ export const Scraper = {
     return res;
   },
 
+  /**
+   * If owner set like count to invisible then `undefined` will be returned.
+   */
   getLikeCount(page: VideoPage) {
     const statisticTag = page.rootNode.querySelector(
       "div[itemprop='interactionStatistic'] meta[content='https://schema.org/LikeAction']",
@@ -115,14 +121,25 @@ export const Scraper = {
     return Number.parseInt(likeCount);
   },
 
+  /**
+   * If this stream has been started, then `true` will be returned.
+   * In case of a stream not started, its result is `false`.
+   */
   isLiveNow(page: VideoPage) {
     return !!page.html.match(/"isLiveNow":true/);
   },
 
+  /**
+   * this channnel has a live stream which in live now.
+   */
   hasStreamingInLive(page: ChannelPage) {
     return !!page.html.match(/"liveBadgeText"/);
   },
 
+  /**
+   * this value means number of listeners who waiting starting stream or watching stream.
+   * so this value *not* means number of view count of videos.
+   */
   getLiveViewCount(page: VideoPage) {
     const res = page.html.match(/"originalViewCount":"(\d+)"/);
     if (!res) {
