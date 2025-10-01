@@ -69,7 +69,7 @@ describe("getSubscriberCount", () => {
       expect(Scraper.getSubscriberCount(page)).toEqual(expected);
     });
 
-    test("if subscriber count not found then an exception will be thrown.", () => {
+    test("if subscriber count not found then returns 0.", () => {
       const page: VideoPage = {
         type: "video",
         videoId: new VideoId("VVVVVVVVVVV"),
@@ -80,7 +80,7 @@ describe("getSubscriberCount", () => {
         `),
       };
 
-      expect(() => Scraper.getSubscriberCount(page)).toThrow(Error);
+      expect(Scraper.getSubscriberCount(page)).toEqual(0);
     });
   });
 
@@ -109,7 +109,7 @@ describe("getSubscriberCount", () => {
       expect(Scraper.getSubscriberCount(page)).toEqual(expected);
     });
 
-    test("if subscriber count not found then an exception will be thrown.", () => {
+    test("if subscriber count not found then returns 0.", () => {
       const page: ChannelPage = {
         type: "channel",
         channelId: new ChannelId("@example"),
@@ -120,7 +120,7 @@ describe("getSubscriberCount", () => {
         `),
       };
 
-      expect(() => Scraper.getSubscriberCount(page)).toThrow(Error);
+      expect(Scraper.getSubscriberCount(page)).toEqual(0);
     });
   });
 });

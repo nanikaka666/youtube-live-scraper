@@ -50,12 +50,8 @@ export const Scraper = {
   getSubscriberCount(page: VideoPage | ChannelPage) {
     // the pattern matching is constructed for Japanese.
     const res = page.html.match(/チャンネル登録者数 (\d+\.?\d*)(万)?人/);
-    if (!res) {
-      throw new Error("Subscriber count not found.");
-    }
-    const subscriberCount = Math.floor(Number.parseFloat(res[1]) * (res[2] ? 10000 : 1));
 
-    return subscriberCount;
+    return !res ? 0 : Math.floor(Number.parseFloat(res[1]) * (res[2] ? 10000 : 1));
   },
 
   getOwnerIconUrlFromVideoPage(page: VideoPage) {
