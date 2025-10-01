@@ -1,7 +1,13 @@
 {
   "name": "youtube-live-scraper",
   "version": "0.1.0",
-  "main": "index.js",
+  "description": "Provide simple scraping features on Youtube.",
+  "main": "./dist/src/index.js",
+  "exports": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "files": [
+    "./dist/src/**/*.*"
+  ],
   "scripts": {
     "test": "jest --randomize",
     "debug": "tsc && node ./dist/debug.js",
@@ -12,14 +18,20 @@
     "type": "git",
     "url": "git+https://github.com/nanikaka666/youtube-live-scraper.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "youtube",
+    "live",
+    "scraping"
+  ],
+  "author": "nanikaka <nanikaka666@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/nanikaka666/youtube-live-scraper/issues"
   },
   "homepage": "https://github.com/nanikaka666/youtube-live-scraper#readme",
-  "description": "",
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^24.5.2",
