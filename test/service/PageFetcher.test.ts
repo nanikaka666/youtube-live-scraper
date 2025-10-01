@@ -1,15 +1,7 @@
 import { ChannelId } from "../../src/core/ChannelId";
 import { VideoId } from "../../src/core/VideoId";
 import * as fetch from "../../src/infrastructure/fetch";
-import {
-  ChannelPage,
-  getChannelPage,
-  getLivePage,
-  getStreamsPage,
-  getVideoPage,
-  getVideosPage,
-  VideoPage,
-} from "../../src/service/PageFetcher";
+import { ChannelPage, PageFetcher, VideoPage } from "../../src/service/PageFetcher";
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -22,7 +14,7 @@ describe("getVideoPage", () => {
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
     const videoId = new VideoId("VVVVVVVVVVV");
-    const actual = await getVideoPage(videoId);
+    const actual = await PageFetcher.getVideoPage(videoId);
 
     expect(actual.type).toEqual("video");
     expect(actual.videoId).toEqual(videoId);
@@ -47,7 +39,7 @@ describe("getLivePage", () => {
         `;
       jest.spyOn(fetch, "fetchAsString").mockImplementation(jest.fn(() => Promise.resolve(html)));
 
-      const actual = await getLivePage(channelId);
+      const actual = await PageFetcher.getLivePage(channelId);
 
       expect(actual.type).toEqual("video");
       expect((actual as VideoPage).videoId.id).toEqual("VVVVVVVVVVV");
@@ -67,7 +59,7 @@ describe("getLivePage", () => {
         `;
       jest.spyOn(fetch, "fetchAsString").mockImplementation(jest.fn(() => Promise.resolve(html)));
 
-      const actual = await getLivePage(channelId);
+      const actual = await PageFetcher.getLivePage(channelId);
 
       expect(actual.type).toEqual("channel");
       expect((actual as ChannelPage).channelId.id).toEqual(channelId.id);
@@ -89,7 +81,7 @@ describe("getLivePage", () => {
     jest.spyOn(fetch, "fetchAsString").mockImplementation(jest.fn(() => Promise.resolve(html)));
 
     expect(async () => {
-      await getLivePage(new ChannelId("@example"));
+      await PageFetcher.getLivePage(new ChannelId("@example"));
     }).rejects.toThrow(Error);
   });
 
@@ -103,7 +95,7 @@ describe("getLivePage", () => {
         `;
     jest.spyOn(fetch, "fetchAsString").mockImplementation(jest.fn(() => Promise.resolve(html)));
 
-    await getLivePage(new ChannelId("@example"));
+    await PageFetcher.getLivePage(new ChannelId("@example"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/@example/live",
@@ -120,7 +112,7 @@ describe("getLivePage", () => {
         `;
     jest.spyOn(fetch, "fetchAsString").mockImplementation(jest.fn(() => Promise.resolve(html)));
 
-    await getLivePage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
+    await PageFetcher.getLivePage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/channel/UCQ78z42ZYZHLlCiDexample/live",
@@ -136,7 +128,7 @@ describe("getChannelPage", () => {
         .spyOn(fetch, "fetchAsString")
         .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-      const actual = await getChannelPage(channelId);
+      const actual = await PageFetcher.getChannelPage(channelId);
 
       expect(actual.type).toEqual("channel");
       expect(actual.channelId).toEqual(channelId);
@@ -149,7 +141,7 @@ describe("getChannelPage", () => {
       .spyOn(fetch, "fetchAsString")
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-    const actual = await getChannelPage(new ChannelId("@example"));
+    const actual = await PageFetcher.getChannelPage(new ChannelId("@example"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/@example",
@@ -161,7 +153,7 @@ describe("getChannelPage", () => {
       .spyOn(fetch, "fetchAsString")
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-    const actual = await getChannelPage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
+    const actual = await PageFetcher.getChannelPage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/channel/UCQ78z42ZYZHLlCiDexample",
@@ -177,7 +169,7 @@ describe("getVideosPage", () => {
         .spyOn(fetch, "fetchAsString")
         .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-      const actual = await getVideosPage(channelId);
+      const actual = await PageFetcher.getVideosPage(channelId);
 
       expect(actual.type).toEqual("videos");
       expect(actual.channelId).toEqual(channelId);
@@ -190,7 +182,7 @@ describe("getVideosPage", () => {
       .spyOn(fetch, "fetchAsString")
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-    const actual = await getVideosPage(new ChannelId("@example"));
+    const actual = await PageFetcher.getVideosPage(new ChannelId("@example"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/@example/videos",
@@ -202,7 +194,7 @@ describe("getVideosPage", () => {
       .spyOn(fetch, "fetchAsString")
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-    const actual = await getVideosPage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
+    const actual = await PageFetcher.getVideosPage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/channel/UCQ78z42ZYZHLlCiDexample/videos",
@@ -218,7 +210,7 @@ describe("getStreamsPage", () => {
         .spyOn(fetch, "fetchAsString")
         .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-      const actual = await getStreamsPage(channelId);
+      const actual = await PageFetcher.getStreamsPage(channelId);
 
       expect(actual.type).toEqual("streams");
       expect(actual.channelId).toEqual(channelId);
@@ -231,7 +223,7 @@ describe("getStreamsPage", () => {
       .spyOn(fetch, "fetchAsString")
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-    const actual = await getStreamsPage(new ChannelId("@example"));
+    const actual = await PageFetcher.getStreamsPage(new ChannelId("@example"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/@example/streams",
@@ -243,7 +235,7 @@ describe("getStreamsPage", () => {
       .spyOn(fetch, "fetchAsString")
       .mockImplementation(jest.fn(() => Promise.resolve("<html></html>")));
 
-    const actual = await getStreamsPage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
+    const actual = await PageFetcher.getStreamsPage(new ChannelId("UCQ78z42ZYZHLlCiDexample"));
 
     expect(jest.mocked(fetch.fetchAsString).mock.calls[0][0]).toEqual(
       "https://www.youtube.com/channel/UCQ78z42ZYZHLlCiDexample/streams",
