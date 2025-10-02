@@ -47,10 +47,22 @@ export const Scraper = {
   /**
    * this value will returned correctly only if the language is set as Japanese.
    */
-  getSubscriberCountFromVideoPage(page: VideoPage | ChannelPage) {
+  getSubscriberCountFromVideoPage(page: VideoPage) {
     // the pattern matching is constructed for Japanese.
     const res = page.html.match(
       /"subscriberCountText":{"accessibility":{"accessibilityData":{"label":"チャンネル登録者数 (\d+\.?\d*)(万)?人"/,
+    );
+
+    return !res ? 0 : Math.floor(Number.parseFloat(res[1]) * (res[2] ? 10000 : 1));
+  },
+
+  /**
+   * this value will returned correctly only if the language is set as Japanese.
+   */
+  getSubscriberCountFromChannelPage(page: ChannelPage) {
+    // the pattern matching is constructed for Japanese.
+    const res = page.html.match(
+      /"metadataParts":\[{"text":{"content":"チャンネル登録者数 (\d+\.?\d*)(万)?人"/,
     );
 
     return !res ? 0 : Math.floor(Number.parseFloat(res[1]) * (res[2] ? 10000 : 1));

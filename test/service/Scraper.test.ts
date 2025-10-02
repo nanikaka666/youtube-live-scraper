@@ -83,7 +83,7 @@ describe("getSubscriberCountFromVideoPage", () => {
   });
 });
 
-describe.skip("in case of ChannelPage", () => {
+describe("getSubscriberCountFromChannelPage", () => {
   test.each([
     ["チャンネル登録者数 1人", 1],
     ["チャンネル登録者数 25人", 25],
@@ -100,12 +100,12 @@ describe.skip("in case of ChannelPage", () => {
       channelId: new ChannelId("@example"),
       ...helper(`
         <html>
-            <script>var a = {"simpleText":"${input}"}</script>
+            <script>var a = {"metadataParts":\[{"text":{"content":"${input}"}</script>
         </html>
     `),
     };
 
-    expect(Scraper.getSubscriberCountFromVideoPage(page)).toEqual(expected);
+    expect(Scraper.getSubscriberCountFromChannelPage(page)).toEqual(expected);
   });
 
   test("if subscriber count not found then returns 0.", () => {
@@ -119,7 +119,7 @@ describe.skip("in case of ChannelPage", () => {
         `),
     };
 
-    expect(Scraper.getSubscriberCountFromVideoPage(page)).toEqual(0);
+    expect(Scraper.getSubscriberCountFromChannelPage(page)).toEqual(0);
   });
 });
 
