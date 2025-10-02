@@ -53,7 +53,7 @@ Get data you want to know using `Scraper` and `VideoListScraper`.
 ```typescript
 import { Scraper, VideoListScraper } from "youtube-live-scraper";
 
-console.log(Scraper.getSubscriberCount(videoPage));
+console.log(Scraper.getSubscriberCountFromVideoPage(videoPage));
 console.log(Scraper.getChannelBanner(channelPage));
 console.log(VideoListScraper.getLatestLiveVideos(streamsPage));
 ```
