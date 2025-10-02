@@ -1,6 +1,6 @@
 {
   "name": "youtube-live-scraper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Provide simple scraping features on Youtube.",
   "main": "./dist/src/index.js",
   "exports": "./dist/src/index.js",
