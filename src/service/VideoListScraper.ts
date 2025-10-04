@@ -60,7 +60,7 @@ export const VideoListScraper = {
   /**
    * Returns a list of videos up to 30 in latest order.
    */
-  getLatestVideos(page: VideosPage) {
+  getLatestVideos: (page: VideosPage) => {
     const videoIdsAndThumbnails = extractVideoIdsAndThumbnails(page);
     const videoTitles = extractVideoTitles(page);
     const durations = extractDurations(page);
@@ -82,7 +82,7 @@ export const VideoListScraper = {
    *
    * if upcoming stream is contained in result, then the item has no duration.
    */
-  getLatestLiveVideos(page: StreamsPage) {
+  getLatestLiveVideos: (page: StreamsPage) => {
     const videoIdsAndThumbnails = extractVideoIdsAndThumbnails(page);
     const videoTitles = extractVideoTitles(page);
     const durations = extractDurations(page);

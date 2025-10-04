@@ -32,7 +32,7 @@ export interface StreamsPage {
 }
 
 export const PageFetcher = {
-  async getVideoPage(videoId: VideoId): Promise<VideoPage> {
+  getVideoPage: async (videoId: VideoId): Promise<VideoPage> => {
     const url = `https://www.youtube.com/watch?v=${videoId.id}`;
     const html = await fetchAsString(url);
     const rootNode = parse(html);
@@ -45,7 +45,7 @@ export const PageFetcher = {
     };
   },
 
-  async getLivePage(channelId: ChannelId): Promise<VideoPage | ChannelPage> {
+  getLivePage: async (channelId: ChannelId): Promise<VideoPage | ChannelPage> => {
     const url = channelId.isHandle
       ? `https://www.youtube.com/${channelId.id}/live`
       : `https://www.youtube.com/channel/${channelId.id}/live`;
@@ -67,7 +67,7 @@ export const PageFetcher = {
       : { type: "video", videoId: new VideoId(res[1]), html: html, rootNode: rootNode };
   },
 
-  async getChannelPage(channelId: ChannelId): Promise<ChannelPage> {
+  getChannelPage: async (channelId: ChannelId): Promise<ChannelPage> => {
     const url = channelId.isHandle
       ? `https://www.youtube.com/${channelId.id}`
       : `https://www.youtube.com/channel/${channelId.id}`;
@@ -77,7 +77,7 @@ export const PageFetcher = {
     return { type: "channel", channelId: channelId, html: html, rootNode: rootNode };
   },
 
-  async getVideosPage(channelId: ChannelId): Promise<VideosPage> {
+  getVideosPage: async (channelId: ChannelId): Promise<VideosPage> => {
     const url = channelId.isHandle
       ? `https://www.youtube.com/${channelId.id}/videos`
       : `https://www.youtube.com/channel/${channelId.id}/videos`;
@@ -87,7 +87,7 @@ export const PageFetcher = {
     return { type: "videos", channelId: channelId, html: html, rootNode: rootNode };
   },
 
-  async getStreamsPage(channelId: ChannelId): Promise<StreamsPage> {
+  getStreamsPage: async (channelId: ChannelId): Promise<StreamsPage> => {
     const url = channelId.isHandle
       ? `https://www.youtube.com/${channelId.id}/streams`
       : `https://www.youtube.com/channel/${channelId.id}/streams`;

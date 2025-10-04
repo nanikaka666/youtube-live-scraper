@@ -36,7 +36,7 @@ function getInnertubeClientVersion(page: VideoPage) {
 }
 
 export const Scraper = {
-  getChannelTitleFromVideoPage(page: VideoPage) {
+  getChannelTitleFromVideoPage: (page: VideoPage) => {
     const res = page.html.match(/"ownerChannelName":"(.+?)"/);
     if (!res) {
       throw new Error("Channel name not found.");
@@ -47,7 +47,7 @@ export const Scraper = {
   /**
    * this value will returned correctly only if the language is set as Japanese.
    */
-  getSubscriberCountFromVideoPage(page: VideoPage) {
+  getSubscriberCountFromVideoPage: (page: VideoPage) => {
     // the pattern matching is constructed for Japanese.
     const res = page.html.match(
       /"subscriberCountText":{"accessibility":{"accessibilityData":{"label":"チャンネル登録者数 (\d+\.?\d*)(万)?人"/,
@@ -59,7 +59,7 @@ export const Scraper = {
   /**
    * this value will returned correctly only if the language is set as Japanese.
    */
-  getSubscriberCountFromChannelPage(page: ChannelPage) {
+  getSubscriberCountFromChannelPage: (page: ChannelPage) => {
     // the pattern matching is constructed for Japanese.
     const res = page.html.match(
       /"metadataParts":\[{"text":{"content":"チャンネル登録者数 (\d+\.?\d*)(万)?人"/,
@@ -68,7 +68,7 @@ export const Scraper = {
     return !res ? 0 : Math.floor(Number.parseFloat(res[1]) * (res[2] ? 10000 : 1));
   },
 
-  getOwnerIconUrlFromVideoPage(page: VideoPage) {
+  getOwnerIconUrlFromVideoPage: (page: VideoPage) => {
     const res = page.html.match(/"videoOwnerRenderer":{"thumbnail":{"thumbnails":\[{"url":"(.+?)"/);
     if (!res) {
       throw new Error("Owner icon url not found.");
@@ -76,7 +76,7 @@ export const Scraper = {
     return res[1];
   },
 
-  getChannelId(page: VideoPage) {
+  getChannelId: (page: VideoPage) => {
     const res = page.html.match(/"externalChannelId":"(.+?)"/);
     if (!res) {
       throw new Error("externalChannelId not found.");
@@ -84,7 +84,7 @@ export const Scraper = {
     return new ChannelId(res[1]);
   },
 
-  getVideoTitle(page: VideoPage) {
+  getVideoTitle: (page: VideoPage) => {
     const meta = page.rootNode.querySelector("meta[name='title']");
     if (!meta) {
       throw new Error("<meta name='title'> is missing.");
@@ -96,7 +96,7 @@ export const Scraper = {
     return new VideoTitle(res);
   },
 
-  getVideoThumbnail(page: VideoPage) {
+  getVideoThumbnail: (page: VideoPage) => {
     const meta = page.rootNode.querySelector("meta[property='og:image']");
     if (!meta) {
       throw new Error("<meta property='og:image'> is missing.");
@@ -111,7 +111,7 @@ export const Scraper = {
   /**
    * If owner set like count to invisible then `undefined` will be returned.
    */
-  getLikeCount(page: VideoPage) {
+  getLikeCount: (page: VideoPage) => {
     const statisticTag = page.rootNode.querySelector(
       "div[itemprop='interactionStatistic'] meta[content='https://schema.org/LikeAction']",
     );
@@ -135,14 +135,14 @@ export const Scraper = {
    * If this stream has been started, then `true` will be returned.
    * In case of a stream not started, its result is `false`.
    */
-  isLiveNow(page: VideoPage) {
+  isLiveNow: (page: VideoPage) => {
     return !!page.html.match(/"isLiveNow":true/);
   },
 
   /**
    * this channnel has a live stream which in live now.
    */
-  hasStreamingInLive(page: ChannelPage) {
+  hasStreamingInLive: (page: ChannelPage) => {
     return !!page.html.match(/"liveBadgeText"/);
   },
 
@@ -150,7 +150,7 @@ export const Scraper = {
    * this value means number of listeners who waiting starting stream or watching stream.
    * so this value *not* means number of view count of videos.
    */
-  getLiveViewCount(page: VideoPage) {
+  getLiveViewCount: (page: VideoPage) => {
     const res = page.html.match(/"originalViewCount":"(\d+)"/);
     if (!res) {
       throw new Error("Live view count not found.");
@@ -158,7 +158,7 @@ export const Scraper = {
     return Number.parseInt(res[1]);
   },
 
-  getLiveChatApiParameters(page: VideoPage) {
+  getLiveChatApiParameters: (page: VideoPage) => {
     const continuation = getContinuation(page);
     const apiKey = getInnertubeApiKey(page);
     const clientName = getInnertubeClientName(page);
@@ -176,7 +176,7 @@ export const Scraper = {
     }
   },
 
-  getOwnerIconUrlFromChannelPage(page: ChannelPage) {
+  getOwnerIconUrlFromChannelPage: (page: ChannelPage) => {
     const element = page.rootNode.querySelector('link[rel="image_src"]');
     if (!element) {
       throw new Error("<link rel='image_src'> is missing.");
@@ -188,7 +188,7 @@ export const Scraper = {
     return href;
   },
 
-  getChannelBanner(page: ChannelPage) {
+  getChannelBanner: (page: ChannelPage) => {
     const res = page.html.match(
       /"banner":{"imageBannerViewModel":{"image":{"sources":\[{"url":"(.+?)"/,
     );
@@ -198,7 +198,7 @@ export const Scraper = {
     return res[1];
   },
 
-  getChannelTitleFromChannelPage(page: ChannelPage) {
+  getChannelTitleFromChannelPage: (page: ChannelPage) => {
     const element = page.rootNode.querySelector('meta[itemprop="name"]');
     if (!element) {
       throw new Error("<meta itemprop='name'> is missing.");
